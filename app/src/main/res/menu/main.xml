@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:MapResearch="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="@string/action_settings"/>
+
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="@string/action_logout"/>
+
+    <item
+        android:id="@+id/action_clear_db"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="Clear (DEBUG)"/>
+
+    <item
+        android:id="@+id/gps_off"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="Turn Off GPS Mode"/>
+
+    <item
+        android:id="@+id/write_message"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="Send message"/>
+
+    <item
+        android:id="@+id/read_message"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="Read message"/>
+
+    <item
+        android:id="@+id/show_list"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="Show markers list"/>
+
+    <item
+        android:id="@+id/delete_expired"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="Delete expired"/>
+
+    <item
+        android:id="@+id/hide_list"
+        android:orderInCategory="100"
+        android:visible="true"
+        MapResearch:showAsAction="never"
+        android:title="Hide markers list"/>
+
+</menu>

@@ -1,0 +1,134 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayoutMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#000000"
+        >
+
+        <Button
+            android:id="@+id/find_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search Location"
+            android:textColor="#000000"
+            android:background="@drawable/map_button"
+            android:padding="15dp"
+            android:layout_alignParentRight="true" />
+        <nd.edu.mapresearch.CustomAutocompleteTextView
+            android:id="@+id/loc_edit_text"
+            android:layout_width="600dp"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:background="@drawable/map_button"
+            android:padding="15dp"
+            android:textColor="#000000"
+            android:layout_toLeftOf="@id/find_btn"/>
+        <Button
+            android:id="@+id/query_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gather Reports"
+            android:textColor="#000000"
+            android:padding="15dp"
+            android:background="@drawable/map_button"
+            android:layout_alignParentLeft="true"
+            />
+        <Button
+            android:id="@+id/clear_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear Map"
+            android:textColor="#000000"
+            android:padding="15dp"
+            android:background="@drawable/map_button"
+            android:layout_toRightOf="@id/query_btn"/>
+
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:id="@+id/RelativeLayoutDirections"
+        android:background="@drawable/map_button"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/turn_signal"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_distance_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/turn_signal"
+            android:layout_below="@+id/MainDirectionsTextView"
+            android:textColor="@color/background_material_dark"
+            android:text="  " />
+
+        <TextView
+            android:layout_width="800dp"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:layout_toRightOf="@+id/turn_signal"
+            android:textColor="@color/background_material_dark"
+            android:layout_margin="7dp"
+            android:id="@+id/MainDirectionsTextView" />
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/zoomDirectionsButton"
+           android:gravity="center_vertical"
+           android:layout_margin="10dp"
+           android:layout_toRightOf="@+id/MainDirectionsTextView"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/audio_button"
+            android:text="Audio input"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"/>
+
+        <ListView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/markersListView"
+            android:visibility="invisible"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/mapview" />
+    </RelativeLayout>
+
+</LinearLayout>
