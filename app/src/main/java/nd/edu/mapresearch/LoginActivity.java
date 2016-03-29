@@ -12,10 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -24,11 +20,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
 
-import nd.edu.mapresearch.Firebase.NewUser;
+import nd.edu.mapresearch.Firebase.ParsePlaceObject;
+import nd.edu.mapresearch.Firebase.ParseUserData;
 
 /**
  * Created by JoaoGuilherme on 5/27/2015.
@@ -41,36 +36,28 @@ public class LoginActivity extends Activity {
     private EditText password; //password edit text
     private Button signin; //Sign in button
     private Button register; //register button
+
+
+
     public static final String TAG = LoginActivity.class.getSimpleName();
     //FIREBASE DATA
-    private Firebase mFirebaseref; // firebase reference for new database/server
+//    private Firebase mFirebaseref; // firebase reference for new database/server
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Basic setup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
+        ParseObject.registerSubclass(ParseUserData.class);
+        ParseObject.registerSubclass(ParsePlaceObject.class);
 
 
-        Firebase ref = new Firebase("https://popping-heat-2850.firebaseio.com/UserData");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.v(TAG, "There are " + dataSnapshot.getChildrenCount() + " blog posts");
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    User user = postSnapshot.getValue(BlogPost.class);
-                    System.out.println(post.getAuthor() + " - " + post.getTitle());
-                }
+        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                        .applicationId("lqmx2GmYTOn8of5IM0LrrZ8bYT0ehDvzHTSdGLGA")
+                        .clientKey(null)
+                        .server("http://notredame.herokuapp.com/parse/") // The trailing slash is important.
+                        .build()
+        );
 
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-
-        NewUser.add("johan", "pass", new DateTime());
-        Parse.initialize(getBaseContext(), "lqmx2GmYTOn8of5IM0LrrZ8bYT0ehDvzHTSdGLGA", "Uk4Leh4EpoN0i04lg7fU5yUW7O6UL94RhTdVWfED");
 
         username = (EditText) findViewById(R.id.registerDialogEditUsername);
         password = (EditText) findViewById(R.id.registerDialogEditPassword);
@@ -124,6 +111,7 @@ public class LoginActivity extends Activity {
 
             }
             Log.d("LoginAcitivity", "Starting query!");
+            
             ParseQuery<ParseObject> query = ParseQuery.getQuery(Utils.USER_DATA);
             query.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {

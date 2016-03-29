@@ -38,6 +38,9 @@ public class Utils {
     public static final String EDITOR_PREVIOUS_PASSWORD_HASH = "PreviousPasswordHash"; // String with password hash of last logged in user
     public static final String EDITOR_PREVIOUS_USER_ID = "PreviousUserID"; // String of ID of last logged in user
 
+
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
     final static CharSequence[] eventsPlotted ={"Bear",
             "Buffalo",
             "Deer",

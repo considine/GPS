@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nd.edu.mapresearch"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="5" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,10 +22,11 @@
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
-    <permission android:protectionLevel="signature"
-        android:name="nd.edu.mapresearch.permission.C2D_MESSAGE" />
-    <uses-permission android:name="nd.edu.mapresearch.permission.C2D_MESSAGE" />
+    <permission
+        android:name="nd.edu.mapresearch.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
 
+    <uses-permission android:name="nd.edu.mapresearch.permission.C2D_MESSAGE" />
 
     <permission
         android:name="nd.edu.mapresearch.permission.MAPS_RECEIVE"
@@ -36,80 +39,88 @@
          Google Maps Android API v2, but are recommended.
     -->
 
-
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
+
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-             >
-     <!--   <meta-data
+        android:label="@string/app_name" >
+
+        <!--
+        <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value= "@string/maps_key" /> -->
+            android:value= "@string/maps_key" />
+        -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/maps_key" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="nd.edu.mapresearch.MainActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_main" >
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="landscape" >
         </activity>
-
         <activity
-            android:name="nd.edu.mapresearch.SettingsActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_settings" >
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="landscape" >
         </activity>
-
         <activity
-            android:name="nd.edu.mapresearch.LoginActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:name=".LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParseBroadcastReceiver">
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
-            android:exported="false">
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <!--
-                  IMPORTANT: Change "com.parse.starter" to match your app's package name.
-                -->
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
                 <category android:name="nd.edu.mapresearch" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".Firebase.TransferParseToFirebase"
+            android:label="@string/title_activity_transfer_parse_to_firebase" >
+        </activity>
     </application>
 
 </manifest>

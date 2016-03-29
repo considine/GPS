@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -58,6 +59,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -70,7 +72,6 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -191,14 +192,12 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
         setContentView(R.layout.activity_main);
         setUpMapIfNeeded();
 
-
         newMessages = -1;
 
         Toast.makeText(MainActivity.this, "USER: " + getIntent().getStringExtra(Utils.USER_DATA_USERNAME), Toast.LENGTH_LONG).show();
         userName = getIntent().getStringExtra(Utils.USER_DATA_USERNAME);
         userID = getIntent().getStringExtra(Utils.USER_DATA_USER_ID);
 
-        Parse.initialize(getBaseContext(), "lqmx2GmYTOn8of5IM0LrrZ8bYT0ehDvzHTSdGLGA", "Uk4Leh4EpoN0i04lg7fU5yUW7O6UL94RhTdVWfED");
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -239,7 +238,7 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
         enteredAddress = "";
         iconOfOnLongClick = "";
 
-        userObject = new ParseObject(Utils.PLACE_OBJECT);
+        userObject = ParseObject.create(Utils.PLACE_OBJECT);
 
         // Set views for GPS mode
         distanceDuration = (TextView) findViewById(R.id.tv_distance_time);
@@ -258,13 +257,15 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
         audioButton.setOnClickListener(audioClickListener);
 
         listView = (ListView) findViewById(R.id.markersListView);
-
-        //mMap.setOnMarkerClickListener(onMarkerClickListener);
-        setUpLongClick();
-
         if(mMap != null){
             setUpClick();
+            setUpLongClick();
         }
+
+//        mMap.setOnMarkerClickListener(onMarkerClickListener);
+
+
+
 
         //set up zoom mode
         zoomButton = (Button) findViewById(R.id.zoomDirectionsButton);
@@ -294,8 +295,10 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
         helpReports = settingsBool.getBoolean("helpChkBox",false);
         //
      //   clearMap();
-        DoParseQuery();
-        drawCircle();
+        if (mMap != null) {
+            DoParseQuery();
+            drawCircle();
+        }
         onResumeTimer = new Timer();
         onResumeTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -970,6 +973,7 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         ParseObject obj = markerAdap.getItem(position);
                         ParseGeoPoint coord = obj.getParseGeoPoint(Utils.PLACE_OBJECT_LOCATION);
+
                         LatLng latLng = new LatLng(coord.getLatitude(), coord.getLongitude());
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                     }
@@ -977,6 +981,7 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
 
 
                 return false;
+
             }
         });
         // Delete expired markers
@@ -1637,7 +1642,7 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
             LatLng markerLatLng;
             MarkerOptions addressMarkerOptions;
             if(addressList==null || addressList.size()==0){
-                Toast.makeText(getBaseContext(), "No Location found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "No FBLocation found", Toast.LENGTH_SHORT).show();
             }
 
             for(int i=0;i<addressList.size();i++){
@@ -1821,9 +1826,15 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapview))
                     .getMap();
+            Log.v("mmap", "called");
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
+                Log.v("mmap2", "called");
                 setUpMap();
+            }
+            else {
+                Log.v("mmap3", "called");
             }
         }
     }
@@ -1849,7 +1860,7 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
         // Get the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
 
-        // Get Current Location
+        // Get Current FBLocation
         Location myLocation = locationManager.getLastKnownLocation(provider);
         //Toast.makeText(getBaseContext(), "myLoc: " + myLocation.toString(), Toast.LENGTH_SHORT).show();
         currentPositionLagLng = new LatLng(currentLatitude, currentLongitude);
